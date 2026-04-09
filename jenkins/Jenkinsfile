@@ -75,6 +75,12 @@ npm -v
             }
         }
 
+        stage('Test') {
+            steps {
+                sh 'export PATH="$PWD/.ci/node/bin:$PATH" && sh ./jenkins/scripts/test.sh'
+            }
+        }
+
         stage('Prune Local Build Artifacts') {
             steps {
                 sh '''#!/bin/sh

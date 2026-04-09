@@ -7,6 +7,10 @@ const BASE_HOST = process.env.VITE_BASE_HOST || 'hmmbird.xyz'
 
 export default defineConfig({
   plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/setupTests.js'],
+  },
   server: {
     port: PORT,
     proxy: {
