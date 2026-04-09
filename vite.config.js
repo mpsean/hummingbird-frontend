@@ -10,6 +10,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.js'],
+    reporters: ['default', 'junit'],
+    outputFile: { junit: './test-results/junit.xml' },
   },
   server: {
     port: PORT,
