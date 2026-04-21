@@ -1,23 +1,8 @@
 import axios from 'axios'
-import { getToken, clearToken, redirectToSignin } from '../auth/useAuth'
 
 const api = axios.create({
   baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
-})
-
-api.interceptors.request.use(cfg => {
-  const token = getToken()
-  if (token) cfg.headers.Authorization = `Bearer ${token}`
-  return cfg
-})
-
-api.interceptors.response.use(r => r, err => {
-  if (err.response?.status === 401) {
-    clearToken()
-    redirectToSignin()
-  }
-  return Promise.reject(err)
 })
 
 // ── Config ────────────────────────────────────────────────────────────────────

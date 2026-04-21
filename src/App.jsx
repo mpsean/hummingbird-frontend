@@ -7,33 +7,11 @@ import TimeAttendance from './pages/TimeAttendance'
 import Payroll from './pages/Payroll'
 import Config from './pages/Config'
 import { configApi } from './api/client'
-import { getToken, storeToken, validateToken, redirectToSignin } from './auth/useAuth'
 
 export default function App() {
-  const [authed, setAuthed] = useState(false)
   const [config, setConfig] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  useEffect(() => {
-    // Absorb token from URL if redirected from signin
-    const params = new URLSearchParams(window.location.search)
-    const urlToken = params.get('token')
-    if (urlToken) {
-      storeToken(urlToken)
-      params.delete('token')
-      const clean = params.toString()
-      window.history.replaceState({}, '', clean ? `?${clean}` : window.location.pathname)
-    }
-
-    // Validate stored token — must exist, be unexpired, and belong to this tenant
-    const token = getToken()
-    if (!validateToken(token)) {
-      redirectToSignin()
-      return
-    }
-    setAuthed(true)
-  }, [])
 
   const fetchConfig = async () => {
     try {
@@ -52,9 +30,7 @@ export default function App() {
     }
   }
 
-  useEffect(() => { if (authed) fetchConfig() }, [authed])
-
-  if (!authed) return null
+  useEffect(() => { fetchConfig() }, [])
 
   if (loading) {
     return (
