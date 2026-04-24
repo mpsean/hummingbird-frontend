@@ -51,11 +51,12 @@ export default function Employees() {
     try {
       const res = await personnelApi.importEmployeesCsv(file)
       const parts = [`Imported ${res.imported}`]
+      if (res.positionsCreated) parts.push(`${res.positionsCreated} new position${res.positionsCreated > 1 ? 's' : ''} created`)
       if (res.skipped) parts.push(`${res.skipped} skipped`)
       if (res.errors) parts.push(`${res.errors} errors`)
       toast[res.errors > 0 && res.imported === 0 ? 'error' : 'success'](parts.join(', ') + '.')
       res.errorMessages?.slice(0, 3).forEach(m => toast.error(m, { duration: 6000 }))
-      if (res.imported > 0) fetchAll()
+      if (res.imported > 0 || res.positionsCreated > 0) fetchAll()
     } catch (err) {
       toast.error(err.response?.data?.message || 'Import failed.')
     } finally {
@@ -159,7 +160,7 @@ export default function Employees() {
         <strong>CSV columns:</strong>{' '}
         Employee_ID, Name, Surname, Position, Salary, Date_Joined, Status (optional — defaults to Active)
         <br />
-        <span className="text-slate-400">Position must match exactly: Food and Beverage, Cleaner, Receptionist, Manager</span>
+        <span className="text-slate-400">Positions are created automatically if they don't exist yet (defaults: Morning shift, 08:00–17:00, 9h).</span>
       </div>
 
       {/* Table */}
