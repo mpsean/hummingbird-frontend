@@ -36,7 +36,7 @@ export default function Home({ config }) {
       {/* Hero */}
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-slate-800">
-          Good day, <span className="text-brand-600">{company}</span> 👋
+          Sawasdee, <span className="text-brand-600">{company}</span> 👋
         </h1>
         <p className="text-slate-500 mt-1">
           Hummingbird HR &mdash; Service Charge Model:{' '}
